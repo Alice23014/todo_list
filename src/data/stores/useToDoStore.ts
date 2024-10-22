@@ -19,9 +19,14 @@ export const useToDoStore = create<ToDoStore>((set, get)=>({
         {
         id: '1',
         title: 'Task 1',
-        createdAt: Date.now(),
-    }
-],
+        createdAt: 423423,
+        },
+        {
+        id: '2',
+        title: 'Task 2',
+        createdAt: 2423525,
+        }
+    ],
     createTask: (title) => {
         const{tasks} = get();
         const newTask ={
