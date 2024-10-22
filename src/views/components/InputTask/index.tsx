@@ -1,24 +1,49 @@
-import React, {useCallback, useState} from "react"; 
+import React, {useState} from "react"; 
 import { useToDoStore } from "../../data/stores/useToDoStore"; 
 import styles from "./index.module.scss"; 
 
 interface InputTaskProps {
-    onAdd: (title: string) => void
+    id: string;
+    title: string;
+    onDone:(id: string) => void
+    onEdited:(id: string, title: string) => void;
+    onRemoved:(id: string) => void;
 }
  
 export const InputTask: React.FC<InputTaskProps> = (
-    {onAdd}
+    {id, title, onDone, onEdited, onRemoved}
 ) => {
-    const [inputValue, setInputValue] = useState('');
-    const addTask = useCallback(()=>{
-        onAdd(inputValue);
-        setInputValue('');
-    },[inputValue])
+    const [checked, setChecked] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [value, setValue] = useState(title);
 
     return (
         <div className={styles.inputTask}>
-            <input type='text' className={styles.inputTaskValue} value={inputValue} placeholder="Type here..." onChange={(e) => {setInputValue(e.target.value)}} onKeyDown={(e)=>{if(e.key === 'Enter'){addTask()}}}></input>
-            <button aria-label='add' className={styles.inputTaskButton} onClick={addTask}></button>
+            <label className={styles.inputTaskLabel}>
+            <input 
+            type='checkbox' 
+            disabled={isEditMode}
+            checked={checked} 
+            className={styles.inputTaskCheckbox} 
+            onChange={(e)=>{
+                setChecked(e.target.checked)
+                if(e.target.checked){
+                    onDone(id)
+                }
+                }}>
+            </input> 
+            {isEditMode ? (
+                <input value={value} onChange={(e)=>{setValue(e.target.value)}} className={styles.inputTaskTitleEdit}></input>
+            ): (<h3 className={styles.inputTaskTitle}>{title}</h3>)}
+           </label>
+           {isEditMode ? (<button aria-label='Save' className={styles.inputTaskSave} onKeyDown={(e)=> {if(e.key=== "Enter"){onEdited(id, value); setIsEditMode(false)}}} onClick={()=>{onEdited(id, value); setIsEditMode(false)}}></button>) : (
+               <button aria-label='Edit' className={styles.inputTaskEdit} onClick={()=>{setIsEditMode(true)}}></button>
+           )}
+            <button aria-label='Remove' className={styles.inputTaskRemove} onClick={()=>{
+                if(confirm('Are you sure?')){
+                    onRemoved(id)
+                }
+            }}></button>
         </div>
     )
 }

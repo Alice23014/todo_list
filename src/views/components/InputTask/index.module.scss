@@ -1,0 +1,56 @@
+.inputTask{
+    display: grid;
+    grid-template-columns: 1fr 50px 50px;
+    grid-column-gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+    background: #DBE2EF;
+    border-radius: 5px;
+    &Label{
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        padding: 12px 15px;
+        grid-column-gap: 10px;
+        cursor: pointer;
+    }
+    &Checkbox{
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+    &TitleEdit{
+        font: 1rem/1em 'Roboto', sans-serif;
+        border: none;
+        padding: 5px;
+        background: none;
+        box-shadow: 0 4px 0 -3px #3F72AF;
+    }
+    &Edit, &Remove, &Save{
+        height: 100%;
+        display:block;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        transition: opacity .2s linear;
+
+        &:hover{
+            opacity: 60%;
+        }
+    }
+    &Edit{
+        background: url('./images/edit.svg') no-repeat center center;
+    }
+    &Remove{
+        background: url('./images/trash.svg') no-repeat center center;
+    }
+    &Save{
+        background: url('./images/check.svg') no-repeat center center;
+    }
+    &Title{
+        line-height: 1.2;
+    }
+
+}

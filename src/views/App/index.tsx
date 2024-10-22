@@ -2,11 +2,10 @@ import React from "react";
 import { useToDoStore } from "../../data/stores/useToDoStore"; 
 import styles from "./index.module.scss"; 
 import { InputPlus } from "../components/InputPlus";
+import { InputTask } from "../components/InputTask";
  
 export const App: React.FC = () => { 
   const { tasks, createTask, removeTask, updateTask } = useToDoStore() 
- 
-  console.log(tasks); 
  
   return ( 
     <article className={styles.article}> 
@@ -22,7 +21,16 @@ export const App: React.FC = () => {
         {!tasks.length && (
           <p className={styles.articleText}>There is no any task</p>
         )}
-
+        {tasks.map((task) => (
+          <InputTask
+            key={task.id}
+            id= {task.id}
+            title ={task.title}
+            onDone={removeTask}
+            onEdited={updateTask}
+            onRemoved={removeTask}
+          />
+        ))}
         </section> 
     </article> 
   ); 
